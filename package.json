@@ -1,0 +1,8 @@
+{
+  "name": "nodejs-multi-processes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:inblack67/Multi-Processes-Nodejs.git",
+  "author": "ryuzaki <ryuzaki>",
+  "license": "MIT"
+}
