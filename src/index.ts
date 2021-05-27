@@ -1,17 +1,7 @@
 import express from 'express';
+import { fork } from 'child_process';
 
-// worst possible way of calculating isPrime
-// check with => 29355126551
-const isPrime = (num: number): boolean => {
-  console.time('isPrime took');
-  for (let i = 3; i < num; i++) {
-    if (num % i === 0) {
-      return false;
-    }
-  }
-  console.timeEnd('isPrime took');
-  return true;
-};
+// parent (single/main) => process context/file
 
 const main = async () => {
   const app = express();
@@ -23,9 +13,12 @@ const main = async () => {
       res.end();
       return;
     }
-    const isIt = isPrime(+num);
-    res.status(200).json({ success: true, isPrime: isIt });
-    res.end();
+    const childProcess = fork('dist/utils.js');
+    childProcess.send({ num: +num });
+    childProcess.on('message', (message) => {
+      res.send(message);
+      res.end();
+    });
   });
 
   const PORT = 5000;
